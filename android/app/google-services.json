@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "361873940711",
+    "project_id": "emailpasswordauth-9d044",
+    "storage_bucket": "emailpasswordauth-9d044.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361873940711:android:39814ab70c0f7ce30b8242",
+        "android_client_info": {
+          "package_name": "com.example.travel_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361873940711-cad8s7f2stv64vppevq6sooccoajhboj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travel_app",
+            "certificate_hash": "0ef3963ff934fdb3742fb4964aea79cb5345bf58"
+          }
+        },
+        {
+          "client_id": "361873940711-atn95qq09hlr526o54qn14v37731va72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXr_fWBReRpziTva2Fwkb3petX-AUYN78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361873940711-atn95qq09hlr526o54qn14v37731va72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
