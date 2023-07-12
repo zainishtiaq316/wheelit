@@ -7,7 +7,7 @@ import 'package:travel_app/utils/loadingIndicator.dart';
 
 import '../../utils/color_utils.dart';
 import '../../widgets/notificationFunction.dart';
-import '../../widgets/textFormField.dart';
+
 import 'adminBN.dart';
 
 class DriverAssign extends StatefulWidget {
@@ -110,7 +110,6 @@ class _DriverAssignState extends State<DriverAssign> {
     });
   }
 
- 
   // Future<void> uplaodConfirmedTour(
   //     String userId,
   //     String name,
@@ -173,39 +172,102 @@ class _DriverAssignState extends State<DriverAssign> {
         child: Column(
           children: [
             const SizedBox(height: 20.0),
-            Textformfield(
-              keyboard: TextInputType.text,
-              hintText: "Driver Name",
-              obsecure: false,
-              controller: nameController,
-              validator: (v) {
-                if (v!.isEmpty) {
-                  return "field required";
-                }
-                return null;
-              },
-              suffixicon: null,
-              prefixicon: Icon(
-                Icons.person,
-                color: kPColor,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextFormField(
+                autofocus: false,
+                obscureText: false,
+                enableSuggestions: true,
+                autocorrect: true,
+                controller: nameController,
+                cursorColor: Colors.black45,
+                style: TextStyle(color: black),
+                keyboardType: TextInputType.name,
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{3,}$');
+                  if (value!.isEmpty) {
+                    return ("Name can't be Empty");
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("Enter Valid Name (Min. 3 Character)");
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  //new
+                  nameController.text = value!;
+                },
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                    suffixIcon: null,
+                    prefixIcon: Icon(Icons.person, color: kPColor),
+                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                    hintText: "Driver Name",
+                    filled: true,
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    fillColor: white.withOpacity(0.3),
+                    hintStyle: TextStyle(color: black),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                            width: 2,
+                            style: BorderStyle.solid,
+                            color: Colors.blue)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                            width: 0, style: BorderStyle.solid))),
               ),
             ),
-            Textformfield(
-              keyboard: TextInputType.number,
-              formatterList: <TextInputFormatter>[],
-              hintText: "Driver Phone no",
-              obsecure: false,
-              controller: contactController,
-              validator: (v) {
-                if (v!.isEmpty) {
-                  return "field required";
-                }
-                return null;
-              },
-              suffixicon: null,
-              prefixicon: Icon(
-                Icons.phone,
-                color: kPColor,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextFormField(
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(11),
+                ],
+                autofocus: false,
+                obscureText: false,
+                enableSuggestions: true,
+                autocorrect: true,
+                controller: contactController,
+                cursorColor: Colors.black45,
+                style: TextStyle(color: black),
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  RegExp regex = new RegExp(r'^.{11,}$');
+                  if (value!.isEmpty) {
+                    return ("Phone Number can't be Empty");
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("Enter Valid phone number (Min. 11 Character)");
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  //new
+                  contactController.text = value!;
+                },
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                    suffixIcon: null,
+                    prefixIcon: Icon(Icons.phone_outlined, color: kPColor),
+                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                    hintText: "Driver Phone Number",
+                    filled: true,
+                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                    fillColor: white.withOpacity(0.3),
+                    hintStyle: TextStyle(color: black),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                            width: 2,
+                            style: BorderStyle.solid,
+                            color: Colors.blue)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: const BorderSide(
+                            width: 0, style: BorderStyle.solid))),
               ),
             ),
             const SizedBox(height: 20.0),

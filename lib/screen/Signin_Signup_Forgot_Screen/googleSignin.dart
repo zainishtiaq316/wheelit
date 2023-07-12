@@ -9,7 +9,7 @@ import 'package:travel_app/pages/home_page.dart';
 import '../../model/user_model.dart';
 
 Future<UserCredential?> signInWithGoogle(
-    BuildContext context, UserModel userModel,String token) async {
+    BuildContext context, UserModel userModel, String token) async {
   try {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -26,7 +26,6 @@ Future<UserCredential?> signInWithGoogle(
     return await FirebaseAuth.instance
         .signInWithCredential(credential)
         .whenComplete(() async {
-  
       userModel.email = googleUser!.email;
       userModel.uid = googleUser.id;
       userModel.firstName = googleUser.displayName;

@@ -107,6 +107,7 @@ class Textformfield extends StatelessWidget {
       required this.controller,
       required this.validator,
       required this.suffixicon,
+      required this.enableSuggestions,
       this.prefixicon,
       this.onchange,
       this.formatterList})
@@ -116,6 +117,7 @@ class Textformfield extends StatelessWidget {
   dynamic controller;
   dynamic keyboard;
   final bool obsecure;
+  final bool enableSuggestions;
   final FormFieldValidator<String?>? validator;
   final IconButton? suffixicon;
   final Icon? prefixicon;

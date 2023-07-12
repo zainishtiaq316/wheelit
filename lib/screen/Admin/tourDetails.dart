@@ -252,18 +252,18 @@ class _TourDetailsState extends State<TourDetails> {
               onPressed: () {
                 assuranceDialog(context, () async {
                   loader(context);
-                  
+
                   await sendPushNotification(
                       widget.joinModel.userToken,
                       "Wheet it Admin",
                       "Your tour request from ${widget.joinModel.source} to ${widget.joinModel.destination} has been Rejected!");
-                  
+
                   await addNotifications(
                       widget.joinModel.userId,
                       DateTime.now().millisecondsSinceEpoch.toString(),
                       "From admin",
                       "Your tour request from ${widget.joinModel.source} to ${widget.joinModel.destination} has been Rejected!");
-                  
+
                   await documentRef.delete();
 
                   Navigator.pushReplacement(
