@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_app/screen/Signin_Signup_Forgot_Screen/splash.dart';
 import 'package:travel_app/utils/color_utils.dart';
 import 'package:travel_app/widgets/notificationService.dart';
+import 'firebase_options.dart';
 
 // Future<bool> checkInternetConnectivity() async {
 //   try {
@@ -22,7 +23,9 @@ import 'package:travel_app/widgets/notificationService.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+ await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   NotificationService.initialize();
   FirebaseMessaging.onBackgroundMessage(
       await NotificationService.firebaseMessagingBackgroundHandler);
