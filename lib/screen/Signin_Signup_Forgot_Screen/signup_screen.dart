@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:travel_app/model/user_model.dart';
+import 'package:travel_app/pages/home_page.dart';
 import 'package:travel_app/screen/Signin_Signup_Forgot_Screen/login_screen.dart';
 import 'package:travel_app/screen/Signin_Signup_Forgot_Screen/verificationScreen.dart';
 import 'package:travel_app/utils/loadingIndicator.dart';
@@ -460,10 +461,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         .doc(user.uid)
         .set(userModel.toMap());
     Fluttertoast.showToast(
-        msg: "Verification mail sent to your account");
+        msg: "SignUp Successful !");
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context) => EmailVerificationScreen()),
+        MaterialPageRoute(builder: (context) => MyHomePage()),
         (route) => false);
   }
 }

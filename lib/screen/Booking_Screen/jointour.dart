@@ -20,9 +20,12 @@ class JoinTour extends StatefulWidget {
 }
 
 class _JoinTourState extends State<JoinTour> {
+    User? user = FirebaseAuth.instance.currentUser;
   bool isCashOnDelivery = true;
   final nameController = TextEditingController();
-  final contactController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final secondNameController = TextEditingController()
+;  final contactController = TextEditingController();
   final emailController = TextEditingController();
   final sourcePointController = TextEditingController();
   final desController = TextEditingController();
@@ -34,70 +37,95 @@ class _JoinTourState extends State<JoinTour> {
   String? userToken;
 
 // Create instances of FirebaseAuth and GoogleSignIn
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  GoogleSignIn _googleSignIn = GoogleSignIn();
+  // FirebaseAuth _auth = FirebaseAuth.instance;
+  // GoogleSignIn _googleSignIn = GoogleSignIn();
 
-// Method to check if the user is signed in with Google Sign-In
-  Future<bool> isSignedInWithGoogle() async {
-    return await _googleSignIn.isSignedIn();
-  }
+// // Method to check if the user is signed in with Google Sign-In
+//   Future<bool> isSignedInWithGoogle() async {
+//     return await _googleSignIn.isSignedIn();
+//   }
 
 // Method to check if the user is signed in with Firebase Auth
-  bool isSignedInWithFirebase() {
-    return _auth.currentUser != null;
-  }
+  // bool isSignedInWithFirebase() {
+  //   return _auth.currentUser != null;
+  // }
 
 // Usage example
-  void checkAuthentication() async {
-    bool isSignedInGoogle = await isSignedInWithGoogle();
-    bool isSignedInFirebase = isSignedInWithFirebase();
+  // void checkAuthentication() async {
+  //   bool isSignedInGoogle = await isSignedInWithGoogle();
+  //   bool isSignedInFirebase = isSignedInWithFirebase();
 
-    if (isSignedInGoogle) {
-      final acc = await _googleSignIn.signIn();
-      final id = acc!.id;
-      setState(() {
-        uid = id;
-      });
-      FirebaseFirestore.instance
-          .collection("users")
-          .doc(uid)
-          .get()
-          .then((value) {
-        this.loggedInUser = UserModel.fromMap(value.data());
-        setState(() {
-          userToken = loggedInUser.token;
-        });
-      });
-      print('User is signed in with Google Sign-In');
-    } else if (isSignedInFirebase) {
-      final id = auth.currentUser!.uid;
-      setState(() {
-        uid = id;
-      });
-      FirebaseFirestore.instance
-          .collection("users")
-          .doc(uid)
-          .get()
-          .then((value) {
-        this.loggedInUser = UserModel.fromMap(value.data());
-        setState(() {
-          userToken = loggedInUser.token;
-        });
-        nameController.text =
-            '${loggedInUser.firstName} ${loggedInUser.secondName}';
-        emailController.text = loggedInUser.email!;
-        contactController.text = loggedInUser.phoneNumber!;
-      });
-      print('User is signed in with Firebase Auth');
-    } else {
-      print('User is not signed in');
-    }
+  //   if (isSignedInGoogle) {
+  //     final acc = await _googleSignIn.signIn();
+  //     final id = acc!.id;
+  //     setState(() {
+  //       uid = id;
+  //     });
+  //     FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(uid)
+  //         .get()
+  //         .then((value) {
+  //       this.loggedInUser = UserModel.fromMap(value.data());
+  //       setState(() {
+  //         userToken = loggedInUser.token;
+  //       });
+  //     });
+  //     print('User is signed in with Google Sign-In');
+  //   } else if (isSignedInFirebase) {
+  //     final id = auth.currentUser!.uid;
+  //     setState(() {
+  //       uid = id;
+  //     });
+  //     FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(uid)
+  //         .get()
+  //         .then((value) {
+  //       this.loggedInUser = UserModel.fromMap(value.data());
+  //       setState(() {
+  //         userToken = loggedInUser.token;
+  //       });
+  //       // nameController.text =
+  //       //     '${loggedInUser.firstName} ${loggedInUser.secondName}';
+  //       // emailController.text = loggedInUser.email!;
+  //       // contactController.text = loggedInUser.phoneNumber!;
+  //     });
+  //     print('User is signed in with Firebase Auth');
+  //   } else {
+  //     print('User is not signed in');
+  //   }
+  // }
+  //  // Fetch user data from Firestore
+  
+  
+  Future<void> fetchUserData() async {
+    DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    // Extract user data
+    setState(() {
+      firstNameController.text = userData['firstName'];
+      secondNameController.text = userData['secondName'];
+      emailController.text = userData['email'];
+      contactController.text = userData['phoneNumber'];
+
+      nameController.text = "${userData['firstName']} ${userData['secondName']}";
+
+    
+     
+    });
   }
-
+ 
+ 
   @override
   void initState() {
     super.initState();
-    checkAuthentication();
+      
+    // checkAuthentication();
+    fetchUserData();
   }
 
   // UserModel loggedInUser = UserModel();
@@ -123,6 +151,9 @@ class _JoinTourState extends State<JoinTour> {
   String? formattedDateTime;
   DateTime? _endDateTime;
   String? endedDateFromattingDateTime;
+   String? firstName;
+  String? lastName;
+  String? email;
 
   Future<void> _selectDateTime(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
@@ -184,6 +215,7 @@ class _JoinTourState extends State<JoinTour> {
   void dispose() {
     super.dispose();
     nameController.dispose();
+    firstNameController.dispose();
     contactController.dispose();
     emailController.dispose();
     sourcePointController.dispose();
@@ -193,16 +225,7 @@ class _JoinTourState extends State<JoinTour> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Book Tour"),
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              Padding(
+    final nameField =  Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
@@ -251,8 +274,8 @@ class _JoinTourState extends State<JoinTour> {
                           borderSide: const BorderSide(
                               width: 0, style: BorderStyle.solid))),
                 ),
-              ),
-              Padding(
+              );
+    final phoneField =   Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
@@ -304,8 +327,8 @@ class _JoinTourState extends State<JoinTour> {
                           borderSide: const BorderSide(
                               width: 0, style: BorderStyle.solid))),
                 ),
-              ),
-              Padding(
+              );    
+    final emailField =   Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
@@ -354,8 +377,9 @@ class _JoinTourState extends State<JoinTour> {
                           borderSide: const BorderSide(
                               width: 0, style: BorderStyle.solid))),
                 ),
-              ),
-              Padding(
+              );
+            
+    final sourceField =  Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
@@ -402,8 +426,8 @@ class _JoinTourState extends State<JoinTour> {
                           borderSide: const BorderSide(
                               width: 0, style: BorderStyle.solid))),
                 ),
-              ),
-              Padding(
+              );
+          final decinField =   Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
@@ -436,8 +460,8 @@ class _JoinTourState extends State<JoinTour> {
                           borderSide: const BorderSide(
                               width: 0, style: BorderStyle.solid))),
                 ),
-              ),
-              Padding(
+              );
+    final sDate =   Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
@@ -471,8 +495,8 @@ class _JoinTourState extends State<JoinTour> {
                       ? TextEditingController(text: formattedDateTime)
                       : null,
                 ),
-              ),
-              Padding(
+              );
+    final fDate =   Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextFormField(
@@ -506,8 +530,33 @@ class _JoinTourState extends State<JoinTour> {
                       ? TextEditingController(text: endedDateFromattingDateTime)
                       : null,
                 ),
-              ),
-              // Padding(
+              );
+               
+    return Scaffold(
+      appBar: AppBar(
+          leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                  onPressed: () {
+                    //passing this to a route
+                    Navigator.of(context).pop();
+                  },
+                ),
+                centerTitle: true,
+        title: const Text("Book Tour"),
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              nameField,
+              phoneField,
+              emailField,
+              sourceField,
+              decinField,
+              sDate,
+              fDate,
+             // Padding(
               //   padding: EdgeInsets.symmetric(horizontal: 22, vertical: 8),
               //   child: Row(
               //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -568,6 +617,7 @@ class _JoinTourState extends State<JoinTour> {
 
                   if (formKey.currentState!.validate()) {
                     loader(context);
+                     print("$name , $name, $contact, $email, $sourcePoint, $startDate,$endDate ");
                     await joinUplaod(
                             DateTime.now().millisecondsSinceEpoch.toString(),
                             name,
@@ -581,6 +631,8 @@ class _JoinTourState extends State<JoinTour> {
                             widget.dataClass.image)
                         .whenComplete(() {
                       Navigator.pop(context);
+                      
+
 
                       showDialog(
                         context: context,
@@ -603,6 +655,9 @@ class _JoinTourState extends State<JoinTour> {
                           );
                         },
                       );
+                   
+                   
+                   
                     });
                   }
                 },
@@ -650,4 +705,5 @@ Future<void> joinUplaod(
     'userToken': userToken,
     'userImage': image,
   });
-}
+
+ }

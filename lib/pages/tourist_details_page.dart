@@ -308,6 +308,7 @@ class _TouristDetailsPageState extends State<TouristDetailsPage> {
                 ),
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
+                  backgroundColor: kPColor,
                   shape: const StadiumBorder(),
                   padding: const EdgeInsets.symmetric(
                     vertical: 15,

@@ -3,9 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/screen/Admin/adminBN.dart';
+import 'package:travel_app/screen/Admin/admin_account_info.dart';
+import 'package:travel_app/screen/Admin/admin_edit_profile.dart';
 import 'package:travel_app/screen/Profile/myaccount.dart';
 import 'package:travel_app/screen/Profile/profile_menu.dart';
 import 'package:travel_app/screen/Profile/uplader.dart';
@@ -33,194 +36,235 @@ class _AdminProfileState extends State<AdminProfile> {
   File? pickImage;
   final _imgPicker = MyImagePicker();
   final UploaderService uploaderService = UploaderService();
+DateTime? currentBackPressTime;
+    late FocusNode myFocusNode;
+
+   Future<bool> onWillPop() async {
+    // myFocusNode.unfocus();
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(msg: 'Press back again to exit');
+      setState(() {
+        myFocusNode.unfocus();
+      });
+      return Future.value(false);
+    }
+    SystemNavigator.pop(); // add this.
+
+    return Future.value(true);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: kPColor,
-        title: Text(
-          "PROFILE",
-          style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: kPColor,
+          title: Text(
+            "PROFILE",
+            style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Stack(
-                  children: [
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.44,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              width: 2,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                        ),
-                        child: pickImage == null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: CachedNetworkImage(
-                                  errorWidget: (context, url, error) {
-                                    return Image.asset(
-                                      "assets/images/user.png",
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                  fit: BoxFit.cover,
-                                  imageUrl:
-                                      "${user?.photoURL != null ? user?.photoURL : profileIcon}",
+        body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(user?.uid)
+                .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                      color: kPColor,
+                    )); // Loading indicator while fetching data
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    Map<String, dynamic>? userData = snapshot.data?.data();
+                    String? firstName = userData?['firstName'];
+                    String? SecondName = userData?['secondName'];
+                    String? email = userData?['email'];
+                    String? phone = userData?['phoneNumber'];
+                    print("${user!.uid}");
+        
+                    return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Stack(
+                    children: [
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.44,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                width: 2,
+                                color: Theme.of(context).scaffoldBackgroundColor),
+                            boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 2,
+                                  blurRadius: 10,
+                                  color: Colors.black.withOpacity(0.1),
+                                  offset: Offset(0, 10))
+                            ],
+                            shape: BoxShape.circle,
+                          ),
+                          child: pickImage == null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: CachedNetworkImage(
+                                    errorWidget: (context, url, error) {
+                                      return Image.asset(
+                                        "assets/images/user.png",
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                        "${user?.photoURL != null ? user?.photoURL : profileIcon}",
+                                  ),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(500),
+                                  child: Image.file(
+                                    pickImage!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )),
+                      Positioned(
+                          bottom: 10,
+                          right: 5,
+                          child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 4,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                              )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(500),
-                                child: Image.file(
-                                  pickImage!,
-                                  fit: BoxFit.cover,
-                                ),
-                              )),
-                    Positioned(
-                        bottom: 10,
-                        right: 5,
-                        child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                width: 4,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
+                                color: Colors.white,
                               ),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: GestureDetector(
-                                  onTap: () async {
-                                    final file = await _imgPicker.pickImage();
-
-                                    if (file != null) {
-                                      setState(() {
-                                        pickImage = file;
-                                      });
-                                    }
-                                  },
-                                  child: Icon(Icons.camera_alt,
-                                      color: Colors.black)),
-                            ))),
-                  ],
+                              child: Center(
+                                child: GestureDetector(
+                                    onTap: () async {
+                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminEditProfile()));
+                                    },
+                                    child: Icon(Icons.edit,
+                                        color: Colors.green)),
+                              ))),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Text("${user!.displayName}",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
-            Text("${user!.email}",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
-            pickImage != null
-                ? InkWell(
-                    onTap: () async {
-                      loader(context);
-                      final image = await uploaderService.uploadFile(
-                          pickImage!, "Profile_Images", FileType.Image);
-                      await FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .update({"photoURL": image.downloadLink});
-
-                      await FirebaseAuth.instance.currentUser!
-                          .updatePhotoURL(image.downloadLink)
-                          .whenComplete(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AdminBottomNav()));
-
-                        Fluttertoast.showToast(msg: "Profile Updated");
-
-                        setState(() {
-                          pickImage = null;
-                        });
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: kPColor,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Text(
-                            "Update Picture",
-                            style: GoogleFonts.openSans(
-                                color: Colors.white,
-                                // fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 8,
+              SizedBox(height: 10),
+              Text("${firstName} ${SecondName}",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+                  SizedBox(height: 5,),
+              Text("${email}",
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+              // pickImage != null
+              //     ? InkWell(
+              //         onTap: () async {
+              //           loader(context);
+              //           final image = await uploaderService.uploadFile(
+              //               pickImage!, "Profile_Images", FileType.Image);
+              //           await FirebaseFirestore.instance
+              //               .collection("users")
+              //               .doc(FirebaseAuth.instance.currentUser!.uid)
+              //               .update({"photoURL": image.downloadLink});
+    
+              //           await FirebaseAuth.instance.currentUser!
+              //               .updatePhotoURL(image.downloadLink)
+              //               .whenComplete(() {
+              //             Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(
+              //                     builder: (context) => AdminBottomNav()));
+    
+              //             Fluttertoast.showToast(msg: "Profile Updated");
+    
+              //             setState(() {
+              //               pickImage = null;
+              //             });
+              //           });
+              //         },
+              //         child: Padding(
+              //           padding: const EdgeInsets.all(8.0),
+              //           child: Container(
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(30),
+              //               color: kPColor,
+              //             ),
+              //             child: Padding(
+              //               padding: const EdgeInsets.symmetric(
+              //                   horizontal: 16, vertical: 8),
+              //               child: Text(
+              //                 "Update Picture",
+              //                 style: GoogleFonts.openSans(
+              //                     color: Colors.white,
+              //                     // fontSize: 20,
+              //                     fontWeight: FontWeight.bold),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       )
+              //     : SizedBox.shrink(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
+                child: Divider(
+                  color: black,
+                  thickness: 0.5,
+                ),
               ),
-              child: Divider(
-                color: black,
-                thickness: 0.5,
+              ProfileMenu(
+                text: "My Account",
+                icon: "assets/icons/User Icon.svg",
+                press: () => {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AdminAccountInfo()))
+                },
               ),
-            ),
-            ProfileMenu(
-              text: "My Account",
-              icon: "assets/icons/User Icon.svg",
-              press: () => {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => AccountInfo()))
-              },
-            ),
-            ProfileMenu(
-              text: "Navigate to user side",
-              icon: "assets/icons/Shop Icon.svg",
-              press: () {
-                assuranceDialog(context, () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => MyHomePage()));
-                });
-              },
-            ),
-            ProfileMenu(
-              text: "Log Out",
-              icon: "assets/icons/Log out.svg",
-              press: () {
-                assuranceDialog(context, () async {
-                  loader(context);
-                  await logout(context);
-                });
-              },
-            ),
-          ],
+              ProfileMenu(
+                text: "Navigate to user side",
+                icon: "assets/icons/Shop Icon.svg",
+                press: () {
+                  assuranceDialog(context, () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => MyHomePage()));
+                  });
+                },
+              ),
+              ProfileMenu(
+                text: "Log Out",
+                icon: "assets/icons/Log out.svg",
+                press: () {
+                  assuranceDialog(context, () async {
+                    loader(context);
+                    await logout(context);
+                  });
+                },
+              ),
+            ],
+          ),
+        );
+      
+          }
+                })
         ),
-      ),
     );
   }
 

@@ -10,12 +10,12 @@ import 'package:travel_app/utils/loadingIndicator.dart';
 
 import '../../utils/color_utils.dart';
 
-class AccountInfo extends StatefulWidget {
+class AdminAccountInfo extends StatefulWidget {
   @override
-  State<AccountInfo> createState() => _AccountInfoState();
+  State<AdminAccountInfo> createState() => _AccountInfoState();
 }
 
-class _AccountInfoState extends State<AccountInfo> {
+class _AccountInfoState extends State<AdminAccountInfo> {
   // final auth = FirebaseAuth.instance;
   // UserModel loggedInUser = UserModel();
 

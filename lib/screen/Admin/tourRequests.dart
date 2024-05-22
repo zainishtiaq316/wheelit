@@ -40,6 +40,7 @@ class _TourRequestsState extends State<TourRequests> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPColor,
+        centerTitle: true,
         title: Text(
           "Tour Requests",
           style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
@@ -49,7 +50,7 @@ class _TourRequestsState extends State<TourRequests> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: Colors.black,
             )),
       ),

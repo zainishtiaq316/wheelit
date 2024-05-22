@@ -40,6 +40,7 @@ class _AllBookingsState extends State<AllBookings> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPColor,
+        centerTitle: true,
         title: Text(
           "All Bookings",
           style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
@@ -49,7 +50,7 @@ class _AllBookingsState extends State<AllBookings> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: Colors.black,
             )),
       ),

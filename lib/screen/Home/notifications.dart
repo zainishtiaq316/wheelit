@@ -106,6 +106,7 @@ class _UserNotificationsState extends State<UserNotifications> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: kPColor,
+          centerTitle: true,
           title: Text(
             "Notifications",
             style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
@@ -115,7 +116,7 @@ class _UserNotificationsState extends State<UserNotifications> {
                 Navigator.pop(context);
               },
               icon: Icon(
-                Icons.arrow_back,
+                Icons.arrow_back_ios,
                 color: Colors.black,
               )),
         ),

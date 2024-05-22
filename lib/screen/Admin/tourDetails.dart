@@ -36,6 +36,7 @@ class _TourDetailsState extends State<TourDetails> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPColor,
+        centerTitle: true,
         title: Text(
           "Tour Details",
           style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
@@ -45,7 +46,7 @@ class _TourDetailsState extends State<TourDetails> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: Colors.black,
             )),
       ),

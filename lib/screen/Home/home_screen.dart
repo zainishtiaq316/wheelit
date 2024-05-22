@@ -129,7 +129,26 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          body: ListView(
+          body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(user?.uid)
+            .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: kPColor,
+                )); // Loading indicator while fetching data
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                Map<String, dynamic>? userData = snapshot.data?.data();
+                String? firstName = userData?['firstName'];
+               
+                print("${user!.uid}");
+    
+                return ListView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             children: [
@@ -146,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Text(
                     // "${loggedInUser.firstName} ${loggedInUser.secondName}",
-                    "${user!.displayName}".capitalize!,
+                    "$firstName",
                     style: GoogleFonts.montserrat(
                         color: black.withOpacity(0.7),
                         fontSize: 18,
@@ -228,7 +247,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? filteredNames
                       : recommendedPlacesList)
             ],
+          );
+          
+              }}
+          
           ),
+    
         ),
       ),
     );

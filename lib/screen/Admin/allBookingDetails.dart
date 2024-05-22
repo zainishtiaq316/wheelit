@@ -19,6 +19,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPColor,
+        centerTitle: true,
         title: Text(
           "Tour Details",
           style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
@@ -28,7 +29,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: Colors.black,
             )),
       ),

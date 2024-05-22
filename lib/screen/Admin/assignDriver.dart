@@ -154,6 +154,7 @@ class _DriverAssignState extends State<DriverAssign> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPColor,
+        centerTitle: true,
         title: Text(
           "Assign Driver",
           style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
@@ -163,7 +164,7 @@ class _DriverAssignState extends State<DriverAssign> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: Colors.black,
             )),
       ),

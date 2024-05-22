@@ -11,8 +11,17 @@ class DeveloperContactPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Contact With Developer'),
         backgroundColor: Colors.blue,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
