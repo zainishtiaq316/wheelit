@@ -107,10 +107,11 @@ class _JoinTourState extends State<JoinTour> {
 
     // Extract user data
     setState(() {
-      firstNameController.text = userData['firstName'];
-      secondNameController.text = userData['secondName'];
-      emailController.text = userData['email'];
-      contactController.text = userData['phoneNumber'];
+      firstNameController.text = userData.data()?['firstName'];
+      secondNameController.text = userData.data()?['secondName'];
+      emailController.text = userData.data()?['email'];
+      contactController.text = userData.data()?['phoneNumber'];
+      userToken =  userData.data()?['token'];
 
       nameController.text = "${userData['firstName']} ${userData['secondName']}";
 
@@ -534,6 +535,7 @@ class _JoinTourState extends State<JoinTour> {
                
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kPColor,
           leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios, color: Colors.black),
                   onPressed: () {
@@ -617,7 +619,7 @@ class _JoinTourState extends State<JoinTour> {
 
                   if (formKey.currentState!.validate()) {
                     loader(context);
-                     print("$name , $name, $contact, $email, $sourcePoint, $startDate,$endDate ");
+                     print("$name , $name, $contact, $email, $sourcePoint, ${userToken} , ${widget.dataClass.name}, ${DateTime.now().millisecondsSinceEpoch.toString()} $startDate,$endDate ");
                     await joinUplaod(
                             DateTime.now().millisecondsSinceEpoch.toString(),
                             name,

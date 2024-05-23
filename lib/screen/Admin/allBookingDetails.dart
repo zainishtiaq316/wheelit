@@ -52,7 +52,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
                   widget.joinModel.name,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -72,7 +72,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
                   widget.joinModel.contact,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -119,7 +119,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
                   widget.joinModel.source,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -139,7 +139,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
                   widget.joinModel.destination,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -166,7 +166,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
                   widget.joinModel.startDate,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -186,7 +186,7 @@ class _AllBookingsDetailsState extends State<AllBookingsDetails> {
                   widget.joinModel.endDate,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],

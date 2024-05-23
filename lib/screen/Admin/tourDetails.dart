@@ -69,7 +69,7 @@ class _TourDetailsState extends State<TourDetails> {
                   widget.joinModel.name,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -89,7 +89,7 @@ class _TourDetailsState extends State<TourDetails> {
                   widget.joinModel.contact,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -109,7 +109,7 @@ class _TourDetailsState extends State<TourDetails> {
                   widget.joinModel.email,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -136,7 +136,7 @@ class _TourDetailsState extends State<TourDetails> {
                   widget.joinModel.source,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -156,7 +156,7 @@ class _TourDetailsState extends State<TourDetails> {
                   widget.joinModel.destination,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -183,7 +183,7 @@ class _TourDetailsState extends State<TourDetails> {
                   widget.joinModel.startDate,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -203,7 +203,7 @@ class _TourDetailsState extends State<TourDetails> {
                   widget.joinModel.endDate,
                   style: GoogleFonts.openSans(
                     color: black,
-                    fontSize: 20,
+                    fontSize: 17,
                   ),
                 ),
               ],
@@ -248,6 +248,7 @@ class _TourDetailsState extends State<TourDetails> {
             ),
           ),
           // : SizedBox.shrink(),
+          SizedBox(height: 15,),
           Center(
             child: ElevatedButton(
               onPressed: () {

@@ -88,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 //   }
               })
           .catchError((e) {
+            Navigator.pop(context);
         Fluttertoast.showToast(msg: e!.message);
       });
     }
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
       enableSuggestions: true,
       autocorrect: true,
       controller: emailController,
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
@@ -141,7 +142,16 @@ class _LoginScreenState extends State<LoginScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+          
+          enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -154,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
       enableSuggestions: false,
       autocorrect: false,
       controller: passwordController,
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       obscureText: true,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
       validator: (value) {
@@ -183,7 +193,16 @@ class _LoginScreenState extends State<LoginScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+         
+         enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -214,9 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith((states) {
               if (states.contains(MaterialState.pressed)) {
-                return Colors.black;
+                return kPColor;
               }
-              return Colors.blue;
+              return kPColor;
             }),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -299,15 +318,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   //color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(36.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 36, right: 36, top: 25, bottom: 25),
+                          child: SizedBox(
                             height: 200,
                             child: Image.asset(
                               "assets/images/logo.png",
@@ -315,12 +334,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               fit: BoxFit.contain,
                             ),
                           ),
-                          SizedBox(height: 25),
-                          emailField,
-                          SizedBox(height: 20),
-                          passwordField,
-                          SizedBox(height: 15),
-                          Row(
+                        ),
+                       
+                        Padding(
+                           padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: emailField,
+                        ),
+                        SizedBox(height: 20),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: passwordField,
+                        ),
+                        SizedBox(height: 15),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               GestureDetector(
@@ -334,16 +362,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   "Forgot Password ?",
                                   style: TextStyle(
-                                      color: Colors.blueAccent,
+                                      color: kPColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
                               )
                             ],
                           ),
-                          SizedBox(height: 10),
-                          loginButon,
-                          Row(
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                           padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: loginButon,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Expanded(
@@ -372,9 +406,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
-                          googleSignIn,
-                          SizedBox(height: 15),
-                          Row(
+                        ),
+                        Padding(
+                           padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: googleSignIn,
+                        ),
+                        SizedBox(height: 15),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text("Don't have a Account? "),
@@ -389,7 +429,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   "Sign Up ",
                                   style: TextStyle(
-                                      color: Colors.blueAccent,
+                                      color: kPColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
                                 ),
@@ -399,8 +439,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               )
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

@@ -10,6 +10,7 @@ import 'package:travel_app/model/user_model.dart';
 import 'package:travel_app/pages/home_page.dart';
 import 'package:travel_app/screen/Signin_Signup_Forgot_Screen/login_screen.dart';
 import 'package:travel_app/screen/Signin_Signup_Forgot_Screen/verificationScreen.dart';
+import 'package:travel_app/utils/color_utils.dart';
 import 'package:travel_app/utils/loadingIndicator.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -58,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       enableSuggestions: true,
       autocorrect: true,
       controller: firstNameEditingController,
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
       keyboardType: TextInputType.name,
       validator: (value) {
@@ -88,7 +89,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+          
+          enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -102,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       obscureText: false,
       enableSuggestions: true,
       autocorrect: true,
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
       keyboardType: TextInputType.name,
       validator: (value) {
@@ -128,7 +138,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+          
+          enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -142,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       enableSuggestions: true,
       autocorrect: true,
       controller: emailEditingController,
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
@@ -171,7 +190,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+        
+        enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -189,7 +217,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       enableSuggestions: true,
       autocorrect: true,
       controller: phoneNumberEditingController,
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
       keyboardType: TextInputType.phone,
       validator: (value) {
@@ -218,7 +246,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+          
+          enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -232,7 +269,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       autocorrect: false,
       controller: passwordEditingController,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       obscureText: true,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
@@ -260,7 +297,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+          
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+          enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -274,7 +320,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       autocorrect: false,
       controller: confirmpasswordEditingController,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       obscureText: true,
       validator: (value) {
         if (confirmpasswordEditingController.text !=
@@ -299,7 +345,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+          
+          enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide:
@@ -325,9 +380,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith((states) {
               if (states.contains(MaterialState.pressed)) {
-                return Colors.black;
+                return kPColor;
               }
-              return Colors.blue;
+              return kPColor;
             }),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -337,16 +392,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       //extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: kPColor,
         elevation: 0,
         centerTitle: true,
         title: const Text(
           "Sign Up",
           style: TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             //passing this to a route
             Navigator.of(context).pop();
@@ -362,38 +417,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Container(
               //color: Colors.white,
 
-              child: Padding(
-                padding: const EdgeInsets.all(36.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 36, right: 36, top: 25, bottom: 25),
+                      child: SizedBox(
                         height: 100,
                         child: Image.asset(
                           "assets/images/logo.png",
-                          color: Colors.blue,
+                          color: kPColor,
                           fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(height: 25),
-                      firstNameField,
-                      SizedBox(height: 20),
-                      lastNameField,
-                      SizedBox(height: 20),
-                      emailField,
-                      SizedBox(height: 20),
-                      phoneNumberField,
-                      SizedBox(height: 20),
-                      passwordField,
-                      SizedBox(height: 20),
-                      confirmpasswordField,
-                      SizedBox(height: 10),
-                      signUpButon,
-                      SizedBox(height: 15),
-                      Row(
+                    ),
+                  
+                    Padding(
+                       padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: firstNameField,
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: lastNameField,
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: emailField,
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: phoneNumberField,
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: passwordField,
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: confirmpasswordField,
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: signUpButon,
+                    ),
+                    SizedBox(height: 15),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("Already have an account  "),
@@ -407,15 +486,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: Text(
                               "Login ",
                               style: TextStyle(
-                                  color: Colors.blue,
+                                  color: kPColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
                             ),
                           )
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -434,6 +513,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore()})
           .catchError((e) {
+            Navigator.pop(context);
         Fluttertoast.showToast(msg: e!.message);
       });
     }

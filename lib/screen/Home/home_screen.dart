@@ -27,13 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
   UserModel loggedInUser = UserModel();
   late FocusNode myFocusNode;
   final searchController = TextEditingController();
+  String firstName = '';
 
   @override
   void initState() {
     super.initState();
+    fetchUserData();
     myFocusNode = FocusNode();
     myFocusNode.addListener(() {
-      myFocusNode.hasFocus;
+      // myFocusNode.hasFocus;
     });
     FirebaseFirestore.instance
         .collection("users")
@@ -55,7 +57,19 @@ class _HomeScreenState extends State<HomeScreen> {
       }).toList();
     });
   }
+ Future<void> fetchUserData() async {
+    DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
 
+    // Extract user data
+    setState(() {
+      firstName = userData.data()?['firstName'];
+     
+    });
+  }
+ 
   @override
   void dispose() {
     super.dispose();
@@ -66,19 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime? currentBackPressTime;
 
   Future<bool> onWillPop() async {
-    // myFocusNode.unfocus();
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(msg: 'Press back again to exit');
-      setState(() {
-        myFocusNode.unfocus();
-      });
       return Future.value(false);
     }
     SystemNavigator.pop(); // add this.
-
     return Future.value(true);
   }
 
@@ -129,131 +138,104 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(user?.uid)
-            .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: kPColor,
-                )); // Loading indicator while fetching data
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                Map<String, dynamic>? userData = snapshot.data?.data();
-                String? firstName = userData?['firstName'];
-               
-                print("${user!.uid}");
-    
-                return ListView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            children: [
-              // LOCATION CARD
-              // const LocationCard(),
-              Row(
-                children: [
-                  Text(
-                    "Hi, ",
-                    style: GoogleFonts.montserrat(
-                        color: black.withOpacity(0.7),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    // "${loggedInUser.firstName} ${loggedInUser.secondName}",
-                    "$firstName",
-                    style: GoogleFonts.montserrat(
-                        color: black.withOpacity(0.7),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              Text(
-                "Explore Places For Your Tour",
-                style: GoogleFonts.montserrat(
-                    color: black.withOpacity(0.7),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Column(
-                children: [
-                  TextField(
-                    textAlignVertical: TextAlignVertical.center,
-                    controller: searchController,
-                    onChanged: (value) {
-                      searchFromList(value);
-                    },
-                    onSubmitted: (value) {
-                      if (value.isNotEmpty) {
-                        searchFromList(value);
-                      }
-                    },
-                    focusNode: myFocusNode,
-                    textInputAction: TextInputAction.search,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        hintText: "Search",
-                        suffixIcon: const Icon(CupertinoIcons.search),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide())),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
+          body: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Hi, ",
+                          style: GoogleFonts.montserrat(
+                              color: black.withOpacity(0.7),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "${firstName}",
+                          style: GoogleFonts.montserrat(
+                              color: black.withOpacity(0.7),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text(
+                      "Explore Places For Your Tour",
+                      style: GoogleFonts.montserrat(
+                          color: black.withOpacity(0.7),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Column(
+                      children: [
+                        TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          controller: searchController,
+                          onChanged: (value) {
+                            searchFromList(value);
+                          },
+                          onSubmitted: (value) {
+                            if (value.isNotEmpty) {
+                              searchFromList(value);
+                            }
+                          },
+                          focusNode: myFocusNode,
+                          textInputAction: TextInputAction.search,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 10.0),
+                              hintText: "Search",
+                              suffixIcon: const Icon(CupertinoIcons.search),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide())),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
 
-              // CATEGORIES
-              myFocusNode.hasFocus
-                  ? SizedBox.shrink()
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Recommendation",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ],
-                    ),
-              myFocusNode.hasFocus ? SizedBox.shrink() : SizedBox(height: 10),
-              myFocusNode.hasFocus ? SizedBox.shrink() : RecommendedPlaces(),
-              myFocusNode.hasFocus ? SizedBox.shrink() : SizedBox(height: 10),
-              myFocusNode.hasFocus
-                  ? SizedBox.shrink()
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Nearby From You",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ],
-                    ),
-              const SizedBox(height: 10),
-              NearbyPlaces(
-                  modelList: myFocusNode.hasFocus
-                      ? filteredNames
-                      : recommendedPlacesList)
-            ],
-          );
-          
-              }}
-          
-          ),
-    
-        ),
+                    // CATEGORIES
+                    myFocusNode.hasFocus
+                        ? SizedBox.shrink()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Recommendation",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ],
+                          ),
+                    myFocusNode.hasFocus ? SizedBox.shrink() : SizedBox(height: 10),
+                    myFocusNode.hasFocus ? SizedBox.shrink() : RecommendedPlaces(),
+                    myFocusNode.hasFocus ? SizedBox.shrink() : SizedBox(height: 10),
+                    myFocusNode.hasFocus
+                        ? SizedBox.shrink()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Nearby From You",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ],
+                          ),
+                    const SizedBox(height: 10),
+                    NearbyPlaces(
+                        modelList: myFocusNode.hasFocus
+                            ? filteredNames
+                            : recommendedPlacesList)
+                  ],
+                )
+),
       ),
     );
   }

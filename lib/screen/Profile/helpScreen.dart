@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/utils/color_utils.dart';
 
 import 'developer_contact.dart';
 
@@ -15,6 +16,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: kPColor,
         title: Text('Help Center'),
           leading: IconButton(
               onPressed: () {

@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:travel_app/utils/color_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DeveloperContactPage extends StatelessWidget {
@@ -13,7 +14,7 @@ class DeveloperContactPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Contact With Developer'),
-        backgroundColor: Colors.blue,
+        backgroundColor: kPColor,
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);

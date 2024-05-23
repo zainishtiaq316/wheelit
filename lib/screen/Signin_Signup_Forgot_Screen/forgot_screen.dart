@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:travel_app/screen/Signin_Signup_Forgot_Screen/login_screen.dart';
+import 'package:travel_app/utils/color_utils.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -26,7 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       enableSuggestions: true,
       autocorrect: true,
       controller: emailEditingController,
-      cursorColor: Colors.black45,
+      cursorColor: Colors.lightBlue,
       keyboardType: TextInputType.emailAddress,
       style: TextStyle(color: Colors.lightBlue.withOpacity(0.9)),
       validator: (value) {
@@ -55,7 +56,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                  width: 2, style: BorderStyle.solid, color: Colors.blue)),
+                  width: 1.5, style: BorderStyle.solid, color: Colors.blue)),
+         
+         enabledBorder: OutlineInputBorder(  // This is the added part
+      borderRadius: BorderRadius.circular(15),
+      borderSide: BorderSide(
+        width: 1, 
+        style: BorderStyle.solid, 
+        color: Colors.blue, // Set your desired color for the idle state here
+      ),
+    ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
@@ -82,9 +92,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith((states) {
               if (states.contains(MaterialState.pressed)) {
-                return Colors.black;
+                return kPColor;
               }
-              return Colors.blue;
+              return kPColor;
             }),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -94,16 +104,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: kPColor,
         elevation: 0,
         centerTitle: true,
         title: const Text(
           "Forgot Password",
           style: TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             //passing this to a route
             Navigator.of(context).pop();
@@ -118,29 +128,35 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           child: SingleChildScrollView(
             child: Container(
               //color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(36.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(36.0),
+                      child: SizedBox(
                         height: 100,
                         child: Image.asset(
                           "assets/images/logo.png",
-                          color: Colors.blue,
+                          color: kPColor,
                           fit: BoxFit.contain,
                         ),
                       ),
-                      SizedBox(height: 25),
-                      emailField,
-                      SizedBox(height: 10),
-                      resetButon,
-                      SizedBox(height: 15),
-                    ],
-                  ),
+                    ),
+                   
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: emailField,
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: resetButon,
+                    ),
+                    SizedBox(height: 15),
+                  ],
                 ),
               ),
             ),
@@ -161,6 +177,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     MaterialPageRoute(builder: (context) => LoginScreen()))
               })
           .catchError((e) {
+            Navigator.pop(context);
         Fluttertoast.showToast(msg: e!.message);
       });
     }
